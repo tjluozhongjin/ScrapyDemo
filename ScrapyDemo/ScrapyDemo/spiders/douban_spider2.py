@@ -5,7 +5,10 @@ from ScrapyDemo.items import DoubanSpiderItem
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
+
 class DoubanSpider(scrapy.Spider):
+
     name = "douban2"
     url = 'https://www.douban.com/people/163296676/rev_contacts?start=0'
     allowed_domains = ["douban.com"]

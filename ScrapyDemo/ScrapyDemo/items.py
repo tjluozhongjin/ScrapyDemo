@@ -18,3 +18,6 @@ class DoubanSpiderItem(scrapy.Item):
     name = scrapy.Field()
     image = scrapy.Field()
     href = scrapy.Field()
+
+class GovSpiderItem(scrapy.Item):
+    name = scrapy.Field()
