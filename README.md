@@ -36,10 +36,10 @@
 
 - 采用第三方组件scrapy-redis
 
+- dequeue — redis
+
   ![2017.10.08](http://scrapy-chs.readthedocs.io/zh_CN/0.24/_images/scrapy_architecture.png)
 
   ​
 
   ​		![2017.10.08](https://www.biaodianfu.com/wp-content/uploads/2016/12/scrapy-redis.jpg)
-
-- dequeue — redis
