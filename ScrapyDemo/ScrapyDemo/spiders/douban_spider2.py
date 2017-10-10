@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
+
 import scrapy,urllib,re
 from scrapy.http import Request,FormRequest
 from ScrapyDemo.items import DoubanSpiderItem
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 
+# 模拟登陆
 class DoubanSpider(scrapy.Spider):
 
     name = "douban2"
@@ -14,12 +13,15 @@ class DoubanSpider(scrapy.Spider):
     allowed_domains = ["douban.com"]
     #start_urls = ['http://douban.com/']
     header={"User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"}
+
+    # 将登陆页面入列
     def start_requests(self):
         url='https://www.douban.com/accounts/login'
         return [Request(url=url,headers= self.header,meta={"cookiejar":1},callback=self.parse)]#可以传递一个标示符来使用多个。如meta={'cookiejar': 1}这句，后面那个1就是标示符
 
+    # 回调函数 -- 登陆
     def parse(self, response):
-        print response.body
+        print response.status
         captcha=response.xpath('//*[@id="captcha_image"]/@src').extract()  #获取验证码图片的链接
         print captcha
         if len(captcha)>0:
@@ -64,6 +66,8 @@ class DoubanSpider(scrapy.Spider):
                 callback=self.get_content,
             )
         ]
+
+    # 回调函数 -- 检测登陆是否成功
     def get_content(self,response):
         title=response.xpath('//title/text()').extract()[0]
         if u'登录豆瓣' in title:
@@ -75,15 +79,15 @@ class DoubanSpider(scrapy.Spider):
             '''
             return [Request(url=self.url,headers= self.header,meta={"cookiejar":response.meta["cookiejar"]},callback=self.parse2)]
 
+    # 回调函数 -- 取所需内容
     def parse2(self,response):
-        print response.body
+        print response
         for index in response.xpath("//dl[@class='obu']"):
             item = DoubanSpiderItem()
             item['name'] = index.xpath(".//img/attribute::alt").extract_first()
             item['image'] = index.xpath(".//img/attribute::src").extract_first()
             item['href'] = index.xpath(".//a/attribute::href").extract_first()
             yield item
-
             next_page = response.xpath("//span[@class='next']/a/attribute::href").extract_first()
             if next_page is not None:
                 yield response.follow(url=next_page.encode("ascii"),headers=self.header,meta={"cookiejar":response.meta["cookiejar"]},callback=self.parse2)

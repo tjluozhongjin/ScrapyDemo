@@ -1,11 +1,10 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 
 import scrapy
 from ScrapyDemo.items import DoubanSpiderItem
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
+
+# 采用手动输入cookies的方式
 class DoubanSpider(scrapy.Spider):
     name = 'douban'
 
@@ -32,10 +31,14 @@ class DoubanSpider(scrapy.Spider):
         # '__utmz': '30149280.1506597166.1.1.utmcsr=accounts.douban.com|utmccn=(referral)|utmcmd=referral|utmcct=/login'
     }
 
+
+    # 爬 -- 将待爬页面加入待爬队列
     def start_requests(self):
 
         yield scrapy.Request(url=self.url,headers=self.headers,cookies=self.cookies,callback=self.parse)
 
+
+    # 取 -- 回调函数
     def parse(self, response):
         for index in response.xpath("//dl[@class='obu']"):
             item = DoubanSpiderItem()
@@ -44,6 +47,7 @@ class DoubanSpider(scrapy.Spider):
             item['href'] = index.xpath(".//a/attribute::href").extract_first()
             yield item
 
+            # 将下一页加入待爬队列
             next_page = response.xpath("//span[@class='next']/a/attribute::href").extract_first()
             if next_page is not None:
                 yield response.follow(url=next_page.encode("ascii"),headers=self.headers,cookies=self.cookies,callback=self.parse)
