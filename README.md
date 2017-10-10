@@ -21,18 +21,26 @@
 
 
 - 爬
+
   - start_urls
   - start_requests
+
 - 取
   - 方式：CSS & XPATH
   - Item 字典：一般来说，Spider将会将爬取到的数据以 Item 对象返回。
   - parse是个迭代器
+
 - 存
   - 内置存储：Feed exports
     - JSON
     - JSON lines
     - CSV
     - XML
+
+    ```
+    scrapy crawl myspider -o test.json
+    ```
+
   - 自定义存储：改写pipelines.py
 
 **豆瓣爬虫**
