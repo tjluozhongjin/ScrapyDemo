@@ -25,6 +25,7 @@
 
 - 通用方案：selenium + 浏览器驱动（PhantomJS、Chrome等）
 - scrapy - splash：lua脚本
+- https://github.com/scrapy-plugins/scrapy-splash
 
 
 **增量式**
@@ -38,8 +39,15 @@
 
 - dequeue — redis
 
+- https://github.com/rmax/scrapy-redis
+
   ![2017.10.08](http://scrapy-chs.readthedocs.io/zh_CN/0.24/_images/scrapy_architecture.png)
 
   ​
 
   ​		![2017.10.08](https://www.biaodianfu.com/wp-content/uploads/2016/12/scrapy-redis.jpg)
+
+- 页面加载的问题
+
+  - 足够长的等待：time.sleep()，隐式&显式
+  - 根据特定的网站写条件等待
