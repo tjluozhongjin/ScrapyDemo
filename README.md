@@ -1,5 +1,25 @@
 **Scrapy**
 
+![2017.10.08](http://scrapy-chs.readthedocs.io/zh_CN/0.24/_images/scrapy_architecture.png)
+
+- 组成
+  - 引擎（Engine）：控制数据流在系统中所有组件中流动
+  - 调度器（Scheduler）：管理请求队列
+  - 下载器（Downloader）：获取页面
+  - Spiders：处理页面
+  - Item Pipeline：数据存储，清理、验证等
+
+
+- 流程
+  - 引擎向调度器请求下一个要爬取的URL
+  - 调度器返回下一个要爬取的URL给引擎，引擎将URL通过下载中间件转发给下载器(Downloader)
+  - 下载器(Downloader)获取页面，一旦页面下载完毕，下载器生成一个该页面的Response，并将它返回给调度器（Engine）
+  - 引擎从下载器中接收到Response并通过Spider中间件发送给Spider处理。
+  - Spider处理Response并返回爬取到的Item及(跟进的)新的Request给引擎。
+  - 引擎将(Spider返回的)爬取到的Item交给Item Pipeline，将Request交给调度器。
+  - 回到第一步
+
+
 - 爬
   - start_urls
   - start_requests
@@ -47,7 +67,8 @@
 
   ​		![2017.10.08](https://www.biaodianfu.com/wp-content/uploads/2016/12/scrapy-redis.jpg)
 
-- 页面加载的问题
 
+
+- 页面加载的问题
   - 足够长的等待：time.sleep()，隐式&显式
   - 根据特定的网站写条件等待
