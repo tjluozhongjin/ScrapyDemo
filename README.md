@@ -40,6 +40,6 @@
 
   ​
 
-  ​	![2017.10.08](https://www.biaodianfu.com/wp-content/uploads/2016/12/scrapy-redis.jpg)
+  ​		![2017.10.08](https://www.biaodianfu.com/wp-content/uploads/2016/12/scrapy-redis.jpg)
 
 - dequeue — redis
